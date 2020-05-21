@@ -1,0 +1,290 @@
+The output for the sample input given in the assignment
+
+$ python3 main.py bfs
+*
+1
+3
+4
+2
+5
+7
+8
+6
+States explored: 14
+Path to goal: 
+  ⇓  
+* 1 3 
+4 2 5 
+7 8 6 
+  ⇓  
+1 * 3 
+4 2 5 
+7 8 6 
+  ⇓  
+1 2 3 
+4 * 5 
+7 8 6 
+  ⇓  
+1 2 3 
+4 5 * 
+7 8 6 
+  ⇓  
+1 2 3 
+4 5 6 
+7 8 * 
+Total No. of Moves: 4
+------------------------------------------------------------
+$ python3 main.py ids
+*
+1
+3
+4
+2
+5
+7
+8
+6
+IDS failed to find goal at depth: 0
+IDS failed to find goal at depth: 1
+IDS failed to find goal at depth: 2
+IDS failed to find goal at depth: 3
+No. of states explored/enqueued: [32]
+Path to goal: 
+  ⇓  
+* 1 3 
+4 2 5 
+7 8 6 
+  ⇓  
+1 * 3 
+4 2 5 
+7 8 6 
+  ⇓  
+1 2 3 
+4 * 5 
+7 8 6 
+  ⇓  
+1 2 3 
+4 5 * 
+7 8 6 
+  ⇓  
+1 2 3 
+4 5 6 
+7 8 * 
+Total No. of Moves: 4
+------------------------------------------------------------
+$ python3 main.py astar1
+*
+1
+3
+4
+2
+5
+7
+8
+6
+No. of states explored/enqueued: 4
+Path to goal: 
+  ⇓  
+* 1 3 
+4 2 5 
+7 8 6 
+  ⇓  
+1 * 3 
+4 2 5 
+7 8 6 
+  ⇓  
+1 2 3 
+4 * 5 
+7 8 6 
+  ⇓  
+1 2 3 
+4 5 * 
+7 8 6 
+  ⇓  
+1 2 3 
+4 5 6 
+7 8 * 
+Total No. of Moves: 4
+------------------------------------------------------------
+$ python3 main.py astar2
+*
+1
+3
+4
+2
+5
+7
+8
+6
+No. of states explored/enqueued: 4
+Path to goal: 
+  ⇓  
+* 1 3 
+4 2 5 
+7 8 6 
+  ⇓  
+1 * 3 
+4 2 5 
+7 8 6 
+  ⇓  
+1 2 3 
+4 * 5 
+7 8 6 
+  ⇓  
+1 2 3 
+4 5 * 
+7 8 6 
+  ⇓  
+1 2 3 
+4 5 6 
+7 8 * 
+Total No. of Moves: 4
+------------------------------------------------------------
+The two heuristics used for the A* search:
+    i. Number of Misplaced Tiles:
+        Here we calculate the heuristic by calculating the number of tiles that are out of place from the goal node
+        eg: input           goal
+            * 1 3          1 2 3
+            4 2 5          4 5 6
+            7 8 6          7 8 *
+        Here, the tiles 1, 2, 5, 6 are out of place from the goal, hence the heuristic cost is : 4
+    ii. Manhattan Distance of the Tiles from their goal position:
+        Here we calculate the Manhattan Distance of the tiles from their intended goal node
+        eg: input           goal
+            * 1 3          1 2 3
+            4 2 5          4 5 6
+            7 8 6          7 8 *
+        Here, the ditances of the tiles not in their position are:
+            Tile : Distance
+                1:1
+                2:1
+                5:1
+                6:1
+            Total heuristic cost = 1 + 1 + 1 + 1 = 4
+------------------------------------------------------------
+Performance Analysis of the two heuristics:
+
+input:
+2 3 5
+1 8 4
+* 7 6
+
+$ python3 main.py astar1
+2
+3
+5
+1
+8
+4
+*
+7
+6
+No. of states explored/enqueued: 33
+Path to goal: 
+  ⇓  
+2 3 5 
+1 8 4 
+* 7 6 
+  ⇓  
+2 3 5 
+1 8 4 
+7 * 6 
+  ⇓  
+2 3 5 
+1 * 4 
+7 8 6 
+  ⇓  
+2 3 5 
+1 4 * 
+7 8 6 
+  ⇓  
+2 3 * 
+1 4 5 
+7 8 6 
+  ⇓  
+2 * 3 
+1 4 5 
+7 8 6 
+  ⇓  
+* 2 3 
+1 4 5 
+7 8 6 
+  ⇓  
+1 2 3 
+* 4 5 
+7 8 6 
+  ⇓  
+1 2 3 
+4 * 5 
+7 8 6 
+  ⇓  
+1 2 3 
+4 5 * 
+7 8 6 
+  ⇓  
+1 2 3 
+4 5 6 
+7 8 * 
+Total No. of Moves: 10
+Manindras-MacBook-Pro:mxa180038 manindra$ python3 main.py astar2
+2
+3
+5
+1
+8
+4
+*
+7
+6
+No. of states explored/enqueued: 11
+Path to goal: 
+  ⇓  
+2 3 5 
+1 8 4 
+* 7 6 
+  ⇓  
+2 3 5 
+1 8 4 
+7 * 6 
+  ⇓  
+2 3 5 
+1 * 4 
+7 8 6 
+  ⇓  
+2 3 5 
+1 4 * 
+7 8 6 
+  ⇓  
+2 3 * 
+1 4 5 
+7 8 6 
+  ⇓  
+2 * 3 
+1 4 5 
+7 8 6 
+  ⇓  
+* 2 3 
+1 4 5 
+7 8 6 
+  ⇓  
+1 2 3 
+* 4 5 
+7 8 6 
+  ⇓  
+1 2 3 
+4 * 5 
+7 8 6 
+  ⇓  
+1 2 3 
+4 5 * 
+7 8 6 
+  ⇓  
+1 2 3 
+4 5 6 
+7 8 * 
+Total No. of Moves: 10
+
+Both the heuristics find the goal node after 10 moves, but
+we can see that heuristic1 enqueues/explores 33 nodes, but the heuristic2 enqueues/explores 11 nodes
+
+This shows the optimality of heuristic2 over heuristic1
