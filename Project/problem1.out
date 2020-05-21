@@ -1,0 +1,637 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2009-11A, November 2009.
+Process 13823 was started by manindra on Manindras-MBP,
+Fri May  1 16:07:21 2020
+The command was "prover9 -f problems.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file problems.in
+
+
+formulas(assumptions).
+customer(John).
+customer(Mary).
+super_market(Safeway).
+gas_station(Shell).
+super_market(x) -> store(x).
+gas_station(x) -> store(x).
+vegetables(Tomatoes).
+animal_produce(GroundBeef).
+money(Card).
+money(Cash).
+cosmetic(Deodrant).
+fuel(Gas).
+fuel(x) -> goods(x).
+buys(John,Tomatoes,Safeway,t).
+buys(John,GroundBeef,Safeway,t).
+buys(Mary,Tomatoes,Safeway,t).
+animal_produce(x) -> meat(x).
+cosmetic(x) -> products(x).
+meat(x) -> food(x).
+vegetables(x) -> food(x).
+food(x) -> products(x).
+products(x) -> goods(x).
+fuel(x) -> -eatable(x).
+cosmetic(x) -> -eatable(x).
+food(x) -> eatable(x).
+customer(x) & buys(x,y,z,t) & food(y) & super_market(z) -> eats(x,y).
+customer(x) -> person(x).
+person(x) -> child(x) | adult(x).
+child(x) -> -adult(x).
+customer(x) & store(y) & goods(z) & buys(x,z,y,t) -> adult(x).
+super_market(x) & products(y) -> sells(x,y).
+gas_station(x) & fuel(y) -> sells(x,y).
+products(x) & super_market(y) -> owns(y,x).
+fuel(x) & super_market(y) -> -owns(y,x).
+super_market(x) -> -gas_station(x).
+products(x) & gas_station(y) -> -owns(y,x).
+fuel(x) & gas_station(y) -> owns(y,x).
+goods(x) & store(y) -> -produced(x,y).
+(all x all p all s all t (buys(x,p,s,t) & buys(y,p,s,t) & products(z) & super_market(s) -> sees(x,y))).
+money(Cash).
+money(Card).
+(all x all y all z all c (customer(x) & goods(y) & buys(x,y,z,t) & money(c) -> brings(x,c,z))).
+eats(x,y) & meat(y) & person(x) -> -vegetarian(x).
+buys(x,y,s,t) -> visits(x,s,t).
+visits(x,y,t) & person(x) & store(y) -> at(x,y,t).
+staff(x) & store(y) -> at(x,y,t).
+staff(x) -> -customer(x).
+weight(GroundBeef,One) & pound(One).
+pound(One) -> ounces(Sixteen).
+ounces(Sixteen) -> ounces(One).
+(all x ((exists y buys(x,y,z,t)) & products(y) -> have(x,y))).
+(all x ((exists y products(x)) -> pound(y) & weight(x,y))).
+(all x all y all s all t (buys(x,y,s,t) -> (exists w (money(w) & less(x,w))))).
+weight(Tomatoes,Two).
+capacity(t,Hundred) & trunk(t).
+(all x ((exists z products(x)) -> weight(x,z))).
+(all x ((exists y trunk(x)) -> capacity(x,y))).
+(all x all z ((exists y exists t weight(x,z)) & capacity(t,y) & products(x) & trunk(t) & less_weight(z,y) -> fits(t,x))).
+less_weight(Two,Hundred).
+end_of_list.
+
+formulas(goals).
+sells(Safeway,Deodrant).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 super_market(x) -> store(x) # label(non_clause).  [assumption].
+2 gas_station(x) -> store(x) # label(non_clause).  [assumption].
+3 fuel(x) -> goods(x) # label(non_clause).  [assumption].
+4 animal_produce(x) -> meat(x) # label(non_clause).  [assumption].
+5 cosmetic(x) -> products(x) # label(non_clause).  [assumption].
+6 meat(x) -> food(x) # label(non_clause).  [assumption].
+7 vegetables(x) -> food(x) # label(non_clause).  [assumption].
+8 food(x) -> products(x) # label(non_clause).  [assumption].
+9 products(x) -> goods(x) # label(non_clause).  [assumption].
+10 fuel(x) -> -eatable(x) # label(non_clause).  [assumption].
+11 cosmetic(x) -> -eatable(x) # label(non_clause).  [assumption].
+12 food(x) -> eatable(x) # label(non_clause).  [assumption].
+13 customer(x) & buys(x,y,z,t) & food(y) & super_market(z) -> eats(x,y) # label(non_clause).  [assumption].
+14 customer(x) -> person(x) # label(non_clause).  [assumption].
+15 person(x) -> child(x) | adult(x) # label(non_clause).  [assumption].
+16 child(x) -> -adult(x) # label(non_clause).  [assumption].
+17 customer(x) & store(y) & goods(z) & buys(x,z,y,t) -> adult(x) # label(non_clause).  [assumption].
+18 super_market(x) & products(y) -> sells(x,y) # label(non_clause).  [assumption].
+19 gas_station(x) & fuel(y) -> sells(x,y) # label(non_clause).  [assumption].
+20 products(x) & super_market(y) -> owns(y,x) # label(non_clause).  [assumption].
+21 fuel(x) & super_market(y) -> -owns(y,x) # label(non_clause).  [assumption].
+22 super_market(x) -> -gas_station(x) # label(non_clause).  [assumption].
+23 products(x) & gas_station(y) -> -owns(y,x) # label(non_clause).  [assumption].
+24 fuel(x) & gas_station(y) -> owns(y,x) # label(non_clause).  [assumption].
+25 goods(x) & store(y) -> -produced(x,y) # label(non_clause).  [assumption].
+26 (all x all p all s all t (buys(x,p,s,t) & buys(y,p,s,t) & products(z) & super_market(s) -> sees(x,y))) # label(non_clause).  [assumption].
+27 (all x all y all z all c (customer(x) & goods(y) & buys(x,y,z,t) & money(c) -> brings(x,c,z))) # label(non_clause).  [assumption].
+28 eats(x,y) & meat(y) & person(x) -> -vegetarian(x) # label(non_clause).  [assumption].
+29 buys(x,y,s,t) -> visits(x,s,t) # label(non_clause).  [assumption].
+30 visits(x,y,t) & person(x) & store(y) -> at(x,y,t) # label(non_clause).  [assumption].
+31 staff(x) & store(y) -> at(x,y,t) # label(non_clause).  [assumption].
+32 staff(x) -> -customer(x) # label(non_clause).  [assumption].
+33 weight(GroundBeef,One) & pound(One) # label(non_clause).  [assumption].
+34 pound(One) -> ounces(Sixteen) # label(non_clause).  [assumption].
+35 ounces(Sixteen) -> ounces(One) # label(non_clause).  [assumption].
+36 (all x ((exists y buys(x,y,z,t)) & products(y) -> have(x,y))) # label(non_clause).  [assumption].
+37 (all x ((exists y products(x)) -> pound(y) & weight(x,y))) # label(non_clause).  [assumption].
+38 (all x all y all s all t (buys(x,y,s,t) -> (exists w (money(w) & less(x,w))))) # label(non_clause).  [assumption].
+39 capacity(t,Hundred) & trunk(t) # label(non_clause).  [assumption].
+40 (all x ((exists z products(x)) -> weight(x,z))) # label(non_clause).  [assumption].
+41 (all x ((exists y trunk(x)) -> capacity(x,y))) # label(non_clause).  [assumption].
+42 (all x all z ((exists y exists t weight(x,z)) & capacity(t,y) & products(x) & trunk(t) & less_weight(z,y) -> fits(t,x))) # label(non_clause).  [assumption].
+43 sells(Safeway,Deodrant) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+customer(John).  [assumption].
+customer(Mary).  [assumption].
+super_market(Safeway).  [assumption].
+gas_station(Shell).  [assumption].
+-super_market(x) | store(x).  [clausify(1)].
+-gas_station(x) | store(x).  [clausify(2)].
+vegetables(Tomatoes).  [assumption].
+animal_produce(GroundBeef).  [assumption].
+money(Card).  [assumption].
+money(Cash).  [assumption].
+cosmetic(Deodrant).  [assumption].
+fuel(Gas).  [assumption].
+-fuel(x) | goods(x).  [clausify(3)].
+buys(John,Tomatoes,Safeway,t).  [assumption].
+buys(John,GroundBeef,Safeway,t).  [assumption].
+buys(Mary,Tomatoes,Safeway,t).  [assumption].
+-animal_produce(x) | meat(x).  [clausify(4)].
+-cosmetic(x) | products(x).  [clausify(5)].
+-meat(x) | food(x).  [clausify(6)].
+-vegetables(x) | food(x).  [clausify(7)].
+-food(x) | products(x).  [clausify(8)].
+-products(x) | goods(x).  [clausify(9)].
+-fuel(x) | -eatable(x).  [clausify(10)].
+-cosmetic(x) | -eatable(x).  [clausify(11)].
+-food(x) | eatable(x).  [clausify(12)].
+-customer(x) | -buys(x,y,z,t) | -food(y) | -super_market(z) | eats(x,y).  [clausify(13)].
+-customer(x) | person(x).  [clausify(14)].
+-person(x) | child(x) | adult(x).  [clausify(15)].
+-child(x) | -adult(x).  [clausify(16)].
+-customer(x) | -store(y) | -goods(z) | -buys(x,z,y,t) | adult(x).  [clausify(17)].
+-super_market(x) | -products(y) | sells(x,y).  [clausify(18)].
+-gas_station(x) | -fuel(y) | sells(x,y).  [clausify(19)].
+-products(x) | -super_market(y) | owns(y,x).  [clausify(20)].
+-fuel(x) | -super_market(y) | -owns(y,x).  [clausify(21)].
+-super_market(x) | -gas_station(x).  [clausify(22)].
+-products(x) | -gas_station(y) | -owns(y,x).  [clausify(23)].
+-fuel(x) | -gas_station(y) | owns(y,x).  [clausify(24)].
+-goods(x) | -store(y) | -produced(x,y).  [clausify(25)].
+-buys(x,y,z,u) | -buys(w,y,z,u) | -products(v5) | -super_market(z) | sees(x,w).  [clausify(26)].
+money(Cash).  [assumption].
+money(Card).  [assumption].
+-customer(x) | -goods(y) | -buys(x,y,z,t) | -money(u) | brings(x,u,z).  [clausify(27)].
+-eats(x,y) | -meat(y) | -person(x) | -vegetarian(x).  [clausify(28)].
+-buys(x,y,s,t) | visits(x,s,t).  [clausify(29)].
+-visits(x,y,t) | -person(x) | -store(y) | at(x,y,t).  [clausify(30)].
+-staff(x) | -store(y) | at(x,y,t).  [clausify(31)].
+-staff(x) | -customer(x).  [clausify(32)].
+weight(GroundBeef,One).  [clausify(33)].
+pound(One).  [clausify(33)].
+-pound(One) | ounces(Sixteen).  [clausify(34)].
+-ounces(Sixteen) | ounces(One).  [clausify(35)].
+-buys(x,y,z,t) | -products(u) | have(x,u).  [clausify(36)].
+-products(x) | pound(y).  [clausify(37)].
+-products(x) | weight(x,y).  [clausify(37)].
+-buys(x,y,z,u) | money(f1(x,y,z,u)).  [clausify(38)].
+-buys(x,y,z,u) | less(x,f1(x,y,z,u)).  [clausify(38)].
+weight(Tomatoes,Two).  [assumption].
+capacity(t,Hundred).  [clausify(39)].
+trunk(t).  [clausify(39)].
+-products(x) | weight(x,y).  [clausify(40)].
+-trunk(x) | capacity(x,y).  [clausify(41)].
+-weight(x,y) | -capacity(t,z) | -products(x) | -trunk(t) | -less_weight(y,z) | fits(t,x).  [clausify(42)].
+less_weight(Two,Hundred).  [assumption].
+-sells(Safeway,Deodrant).  [deny(43)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+Eliminating customer/1
+44 -customer(x) | -buys(x,y,z,t) | -food(y) | -super_market(z) | eats(x,y).  [clausify(13)].
+45 customer(John).  [assumption].
+46 customer(Mary).  [assumption].
+Derived: -buys(John,x,y,t) | -food(x) | -super_market(y) | eats(John,x).  [resolve(44,a,45,a)].
+Derived: -buys(Mary,x,y,t) | -food(x) | -super_market(y) | eats(Mary,x).  [resolve(44,a,46,a)].
+47 -customer(x) | person(x).  [clausify(14)].
+Derived: person(John).  [resolve(47,a,45,a)].
+Derived: person(Mary).  [resolve(47,a,46,a)].
+48 -customer(x) | -store(y) | -goods(z) | -buys(x,z,y,t) | adult(x).  [clausify(17)].
+Derived: -store(x) | -goods(y) | -buys(John,y,x,t) | adult(John).  [resolve(48,a,45,a)].
+Derived: -store(x) | -goods(y) | -buys(Mary,y,x,t) | adult(Mary).  [resolve(48,a,46,a)].
+49 -customer(x) | -goods(y) | -buys(x,y,z,t) | -money(u) | brings(x,u,z).  [clausify(27)].
+Derived: -goods(x) | -buys(John,x,y,t) | -money(z) | brings(John,z,y).  [resolve(49,a,45,a)].
+Derived: -goods(x) | -buys(Mary,x,y,t) | -money(z) | brings(Mary,z,y).  [resolve(49,a,46,a)].
+50 -staff(x) | -customer(x).  [clausify(32)].
+Derived: -staff(John).  [resolve(50,b,45,a)].
+Derived: -staff(Mary).  [resolve(50,b,46,a)].
+
+Eliminating super_market/1
+51 -super_market(x) | store(x).  [clausify(1)].
+52 super_market(Safeway).  [assumption].
+Derived: store(Safeway).  [resolve(51,a,52,a)].
+53 -super_market(x) | -products(y) | sells(x,y).  [clausify(18)].
+Derived: -products(x) | sells(Safeway,x).  [resolve(53,a,52,a)].
+54 -products(x) | -super_market(y) | owns(y,x).  [clausify(20)].
+Derived: -products(x) | owns(Safeway,x).  [resolve(54,b,52,a)].
+55 -fuel(x) | -super_market(y) | -owns(y,x).  [clausify(21)].
+Derived: -fuel(x) | -owns(Safeway,x).  [resolve(55,b,52,a)].
+56 -super_market(x) | -gas_station(x).  [clausify(22)].
+Derived: -gas_station(Safeway).  [resolve(56,a,52,a)].
+57 -buys(x,y,z,u) | -buys(w,y,z,u) | -products(v5) | -super_market(z) | sees(x,w).  [clausify(26)].
+Derived: -buys(x,y,Safeway,z) | -buys(u,y,Safeway,z) | -products(w) | sees(x,u).  [resolve(57,d,52,a)].
+58 -buys(John,x,y,t) | -food(x) | -super_market(y) | eats(John,x).  [resolve(44,a,45,a)].
+Derived: -buys(John,x,Safeway,t) | -food(x) | eats(John,x).  [resolve(58,c,52,a)].
+59 -buys(Mary,x,y,t) | -food(x) | -super_market(y) | eats(Mary,x).  [resolve(44,a,46,a)].
+Derived: -buys(Mary,x,Safeway,t) | -food(x) | eats(Mary,x).  [resolve(59,c,52,a)].
+
+Eliminating gas_station/1
+60 -gas_station(x) | store(x).  [clausify(2)].
+61 gas_station(Shell).  [assumption].
+Derived: store(Shell).  [resolve(60,a,61,a)].
+62 -gas_station(x) | -fuel(y) | sells(x,y).  [clausify(19)].
+Derived: -fuel(x) | sells(Shell,x).  [resolve(62,a,61,a)].
+63 -products(x) | -gas_station(y) | -owns(y,x).  [clausify(23)].
+Derived: -products(x) | -owns(Shell,x).  [resolve(63,b,61,a)].
+64 -fuel(x) | -gas_station(y) | owns(y,x).  [clausify(24)].
+Derived: -fuel(x) | owns(Shell,x).  [resolve(64,b,61,a)].
+65 -gas_station(Safeway).  [resolve(56,a,52,a)].
+
+Eliminating vegetables/1
+66 -vegetables(x) | food(x).  [clausify(7)].
+67 vegetables(Tomatoes).  [assumption].
+Derived: food(Tomatoes).  [resolve(66,a,67,a)].
+
+Eliminating animal_produce/1
+68 -animal_produce(x) | meat(x).  [clausify(4)].
+69 animal_produce(GroundBeef).  [assumption].
+Derived: meat(GroundBeef).  [resolve(68,a,69,a)].
+
+Eliminating money/1
+70 -goods(x) | -buys(John,x,y,t) | -money(z) | brings(John,z,y).  [resolve(49,a,45,a)].
+71 money(Card).  [assumption].
+72 money(Cash).  [assumption].
+73 money(Cash).  [assumption].
+74 money(Card).  [assumption].
+75 -buys(x,y,z,u) | money(f1(x,y,z,u)).  [clausify(38)].
+Derived: -goods(x) | -buys(John,x,y,t) | brings(John,Card,y).  [resolve(70,c,71,a)].
+Derived: -goods(x) | -buys(John,x,y,t) | brings(John,Cash,y).  [resolve(70,c,72,a)].
+Derived: -goods(x) | -buys(John,x,y,t) | brings(John,f1(z,u,w,v5),y) | -buys(z,u,w,v5).  [resolve(70,c,75,b)].
+76 -goods(x) | -buys(Mary,x,y,t) | -money(z) | brings(Mary,z,y).  [resolve(49,a,46,a)].
+Derived: -goods(x) | -buys(Mary,x,y,t) | brings(Mary,Card,y).  [resolve(76,c,71,a)].
+Derived: -goods(x) | -buys(Mary,x,y,t) | brings(Mary,Cash,y).  [resolve(76,c,72,a)].
+Derived: -goods(x) | -buys(Mary,x,y,t) | brings(Mary,f1(z,u,w,v5),y) | -buys(z,u,w,v5).  [resolve(76,c,75,b)].
+
+Eliminating cosmetic/1
+77 -cosmetic(x) | products(x).  [clausify(5)].
+78 cosmetic(Deodrant).  [assumption].
+Derived: products(Deodrant).  [resolve(77,a,78,a)].
+79 -cosmetic(x) | -eatable(x).  [clausify(11)].
+Derived: -eatable(Deodrant).  [resolve(79,a,78,a)].
+
+Eliminating fuel/1
+80 -fuel(x) | goods(x).  [clausify(3)].
+81 fuel(Gas).  [assumption].
+Derived: goods(Gas).  [resolve(80,a,81,a)].
+82 -fuel(x) | -eatable(x).  [clausify(10)].
+Derived: -eatable(Gas).  [resolve(82,a,81,a)].
+83 -fuel(x) | -owns(Safeway,x).  [resolve(55,b,52,a)].
+Derived: -owns(Safeway,Gas).  [resolve(83,a,81,a)].
+84 -fuel(x) | sells(Shell,x).  [resolve(62,a,61,a)].
+Derived: sells(Shell,Gas).  [resolve(84,a,81,a)].
+85 -fuel(x) | owns(Shell,x).  [resolve(64,b,61,a)].
+Derived: owns(Shell,Gas).  [resolve(85,a,81,a)].
+
+Eliminating meat/1
+86 meat(GroundBeef).  [resolve(68,a,69,a)].
+87 -meat(x) | food(x).  [clausify(6)].
+88 -eats(x,y) | -meat(y) | -person(x) | -vegetarian(x).  [clausify(28)].
+Derived: food(GroundBeef).  [resolve(86,a,87,a)].
+Derived: -eats(x,GroundBeef) | -person(x) | -vegetarian(x).  [resolve(86,a,88,b)].
+
+Eliminating food/1
+89 food(Tomatoes).  [resolve(66,a,67,a)].
+90 -food(x) | products(x).  [clausify(8)].
+91 -food(x) | eatable(x).  [clausify(12)].
+92 -buys(John,x,Safeway,t) | -food(x) | eats(John,x).  [resolve(58,c,52,a)].
+93 -buys(Mary,x,Safeway,t) | -food(x) | eats(Mary,x).  [resolve(59,c,52,a)].
+Derived: products(Tomatoes).  [resolve(89,a,90,a)].
+Derived: eatable(Tomatoes).  [resolve(89,a,91,a)].
+Derived: -buys(John,Tomatoes,Safeway,t) | eats(John,Tomatoes).  [resolve(89,a,92,b)].
+Derived: -buys(Mary,Tomatoes,Safeway,t) | eats(Mary,Tomatoes).  [resolve(89,a,93,b)].
+94 food(GroundBeef).  [resolve(86,a,87,a)].
+Derived: products(GroundBeef).  [resolve(94,a,90,a)].
+Derived: eatable(GroundBeef).  [resolve(94,a,91,a)].
+Derived: -buys(John,GroundBeef,Safeway,t) | eats(John,GroundBeef).  [resolve(94,a,92,b)].
+Derived: -buys(Mary,GroundBeef,Safeway,t) | eats(Mary,GroundBeef).  [resolve(94,a,93,b)].
+
+Eliminating products/1
+95 products(Deodrant).  [resolve(77,a,78,a)].
+96 -products(x) | goods(x).  [clausify(9)].
+97 -buys(x,y,z,t) | -products(u) | have(x,u).  [clausify(36)].
+98 -products(x) | pound(y).  [clausify(37)].
+99 -products(x) | weight(x,y).  [clausify(37)].
+100 -products(x) | weight(x,y).  [clausify(40)].
+101 -weight(x,y) | -capacity(t,z) | -products(x) | -trunk(t) | -less_weight(y,z) | fits(t,x).  [clausify(42)].
+102 -products(x) | sells(Safeway,x).  [resolve(53,a,52,a)].
+103 -products(x) | owns(Safeway,x).  [resolve(54,b,52,a)].
+104 -buys(x,y,Safeway,z) | -buys(u,y,Safeway,z) | -products(w) | sees(x,u).  [resolve(57,d,52,a)].
+105 -products(x) | -owns(Shell,x).  [resolve(63,b,61,a)].
+Derived: goods(Deodrant).  [resolve(95,a,96,a)].
+Derived: -buys(x,y,z,t) | have(x,Deodrant).  [resolve(95,a,97,b)].
+Derived: pound(x).  [resolve(95,a,98,a)].
+Derived: weight(Deodrant,x).  [resolve(95,a,99,a)].
+Derived: -weight(Deodrant,x) | -capacity(t,y) | -trunk(t) | -less_weight(x,y) | fits(t,Deodrant).  [resolve(95,a,101,c)].
+Derived: sells(Safeway,Deodrant).  [resolve(95,a,102,a)].
+Derived: owns(Safeway,Deodrant).  [resolve(95,a,103,a)].
+Derived: -buys(x,y,Safeway,z) | -buys(u,y,Safeway,z) | sees(x,u).  [resolve(95,a,104,c)].
+Derived: -owns(Shell,Deodrant).  [resolve(95,a,105,a)].
+106 products(Tomatoes).  [resolve(89,a,90,a)].
+Derived: goods(Tomatoes).  [resolve(106,a,96,a)].
+Derived: -buys(x,y,z,t) | have(x,Tomatoes).  [resolve(106,a,97,b)].
+Derived: weight(Tomatoes,x).  [resolve(106,a,99,a)].
+Derived: -weight(Tomatoes,x) | -capacity(t,y) | -trunk(t) | -less_weight(x,y) | fits(t,Tomatoes).  [resolve(106,a,101,c)].
+Derived: sells(Safeway,Tomatoes).  [resolve(106,a,102,a)].
+Derived: owns(Safeway,Tomatoes).  [resolve(106,a,103,a)].
+Derived: -owns(Shell,Tomatoes).  [resolve(106,a,105,a)].
+107 products(GroundBeef).  [resolve(94,a,90,a)].
+Derived: goods(GroundBeef).  [resolve(107,a,96,a)].
+Derived: -buys(x,y,z,t) | have(x,GroundBeef).  [resolve(107,a,97,b)].
+Derived: weight(GroundBeef,x).  [resolve(107,a,99,a)].
+Derived: -weight(GroundBeef,x) | -capacity(t,y) | -trunk(t) | -less_weight(x,y) | fits(t,GroundBeef).  [resolve(107,a,101,c)].
+Derived: sells(Safeway,GroundBeef).  [resolve(107,a,102,a)].
+Derived: owns(Safeway,GroundBeef).  [resolve(107,a,103,a)].
+Derived: -owns(Shell,GroundBeef).  [resolve(107,a,105,a)].
+
+Eliminating person/1
+108 person(John).  [resolve(47,a,45,a)].
+109 -person(x) | child(x) | adult(x).  [clausify(15)].
+110 -visits(x,y,t) | -person(x) | -store(y) | at(x,y,t).  [clausify(30)].
+Derived: child(John) | adult(John).  [resolve(108,a,109,a)].
+Derived: -visits(John,x,t) | -store(x) | at(John,x,t).  [resolve(108,a,110,b)].
+111 person(Mary).  [resolve(47,a,46,a)].
+Derived: child(Mary) | adult(Mary).  [resolve(111,a,109,a)].
+Derived: -visits(Mary,x,t) | -store(x) | at(Mary,x,t).  [resolve(111,a,110,b)].
+112 -eats(x,GroundBeef) | -person(x) | -vegetarian(x).  [resolve(86,a,88,b)].
+Derived: -eats(John,GroundBeef) | -vegetarian(John).  [resolve(112,b,108,a)].
+Derived: -eats(Mary,GroundBeef) | -vegetarian(Mary).  [resolve(112,b,111,a)].
+
+Eliminating child/1
+113 child(John) | adult(John).  [resolve(108,a,109,a)].
+114 -child(x) | -adult(x).  [clausify(16)].
+115 child(Mary) | adult(Mary).  [resolve(111,a,109,a)].
+
+Eliminating goods/1
+116 goods(Gas).  [resolve(80,a,81,a)].
+117 -goods(x) | -store(y) | -produced(x,y).  [clausify(25)].
+118 -store(x) | -goods(y) | -buys(John,y,x,t) | adult(John).  [resolve(48,a,45,a)].
+119 -store(x) | -goods(y) | -buys(Mary,y,x,t) | adult(Mary).  [resolve(48,a,46,a)].
+120 -goods(x) | -buys(John,x,y,t) | brings(John,Card,y).  [resolve(70,c,71,a)].
+121 -goods(x) | -buys(John,x,y,t) | brings(John,Cash,y).  [resolve(70,c,72,a)].
+122 -goods(x) | -buys(John,x,y,t) | brings(John,f1(z,u,w,v5),y) | -buys(z,u,w,v5).  [resolve(70,c,75,b)].
+123 -goods(x) | -buys(Mary,x,y,t) | brings(Mary,Card,y).  [resolve(76,c,71,a)].
+124 -goods(x) | -buys(Mary,x,y,t) | brings(Mary,Cash,y).  [resolve(76,c,72,a)].
+125 -goods(x) | -buys(Mary,x,y,t) | brings(Mary,f1(z,u,w,v5),y) | -buys(z,u,w,v5).  [resolve(76,c,75,b)].
+Derived: -store(x) | -produced(Gas,x).  [resolve(116,a,117,a)].
+Derived: -store(x) | -buys(John,Gas,x,t) | adult(John).  [resolve(116,a,118,b)].
+Derived: -store(x) | -buys(Mary,Gas,x,t) | adult(Mary).  [resolve(116,a,119,b)].
+Derived: -buys(John,Gas,x,t) | brings(John,Card,x).  [resolve(116,a,120,a)].
+Derived: -buys(John,Gas,x,t) | brings(John,Cash,x).  [resolve(116,a,121,a)].
+Derived: -buys(John,Gas,x,t) | brings(John,f1(y,z,u,w),x) | -buys(y,z,u,w).  [resolve(116,a,122,a)].
+Derived: -buys(Mary,Gas,x,t) | brings(Mary,Card,x).  [resolve(116,a,123,a)].
+Derived: -buys(Mary,Gas,x,t) | brings(Mary,Cash,x).  [resolve(116,a,124,a)].
+Derived: -buys(Mary,Gas,x,t) | brings(Mary,f1(y,z,u,w),x) | -buys(y,z,u,w).  [resolve(116,a,125,a)].
+126 goods(Deodrant).  [resolve(95,a,96,a)].
+Derived: -store(x) | -produced(Deodrant,x).  [resolve(126,a,117,a)].
+Derived: -store(x) | -buys(John,Deodrant,x,t) | adult(John).  [resolve(126,a,118,b)].
+Derived: -store(x) | -buys(Mary,Deodrant,x,t) | adult(Mary).  [resolve(126,a,119,b)].
+Derived: -buys(John,Deodrant,x,t) | brings(John,Card,x).  [resolve(126,a,120,a)].
+Derived: -buys(John,Deodrant,x,t) | brings(John,Cash,x).  [resolve(126,a,121,a)].
+Derived: -buys(John,Deodrant,x,t) | brings(John,f1(y,z,u,w),x) | -buys(y,z,u,w).  [resolve(126,a,122,a)].
+Derived: -buys(Mary,Deodrant,x,t) | brings(Mary,Card,x).  [resolve(126,a,123,a)].
+Derived: -buys(Mary,Deodrant,x,t) | brings(Mary,Cash,x).  [resolve(126,a,124,a)].
+Derived: -buys(Mary,Deodrant,x,t) | brings(Mary,f1(y,z,u,w),x) | -buys(y,z,u,w).  [resolve(126,a,125,a)].
+127 goods(Tomatoes).  [resolve(106,a,96,a)].
+Derived: -store(x) | -produced(Tomatoes,x).  [resolve(127,a,117,a)].
+Derived: -store(x) | -buys(John,Tomatoes,x,t) | adult(John).  [resolve(127,a,118,b)].
+Derived: -store(x) | -buys(Mary,Tomatoes,x,t) | adult(Mary).  [resolve(127,a,119,b)].
+Derived: -buys(John,Tomatoes,x,t) | brings(John,Card,x).  [resolve(127,a,120,a)].
+Derived: -buys(John,Tomatoes,x,t) | brings(John,Cash,x).  [resolve(127,a,121,a)].
+Derived: -buys(John,Tomatoes,x,t) | brings(John,f1(y,z,u,w),x) | -buys(y,z,u,w).  [resolve(127,a,122,a)].
+Derived: -buys(Mary,Tomatoes,x,t) | brings(Mary,Card,x).  [resolve(127,a,123,a)].
+Derived: -buys(Mary,Tomatoes,x,t) | brings(Mary,Cash,x).  [resolve(127,a,124,a)].
+Derived: -buys(Mary,Tomatoes,x,t) | brings(Mary,f1(y,z,u,w),x) | -buys(y,z,u,w).  [resolve(127,a,125,a)].
+128 goods(GroundBeef).  [resolve(107,a,96,a)].
+Derived: -store(x) | -produced(GroundBeef,x).  [resolve(128,a,117,a)].
+Derived: -store(x) | -buys(John,GroundBeef,x,t) | adult(John).  [resolve(128,a,118,b)].
+Derived: -store(x) | -buys(Mary,GroundBeef,x,t) | adult(Mary).  [resolve(128,a,119,b)].
+Derived: -buys(John,GroundBeef,x,t) | brings(John,Card,x).  [resolve(128,a,120,a)].
+Derived: -buys(John,GroundBeef,x,t) | brings(John,Cash,x).  [resolve(128,a,121,a)].
+Derived: -buys(John,GroundBeef,x,t) | brings(John,f1(y,z,u,w),x) | -buys(y,z,u,w).  [resolve(128,a,122,a)].
+Derived: -buys(Mary,GroundBeef,x,t) | brings(Mary,Card,x).  [resolve(128,a,123,a)].
+Derived: -buys(Mary,GroundBeef,x,t) | brings(Mary,Cash,x).  [resolve(128,a,124,a)].
+Derived: -buys(Mary,GroundBeef,x,t) | brings(Mary,f1(y,z,u,w),x) | -buys(y,z,u,w).  [resolve(128,a,125,a)].
+
+Eliminating visits/3
+129 -visits(John,x,t) | -store(x) | at(John,x,t).  [resolve(108,a,110,b)].
+130 -buys(x,y,s,t) | visits(x,s,t).  [clausify(29)].
+Derived: -store(s) | at(John,s,t) | -buys(John,x,s,t).  [resolve(129,a,130,b)].
+131 -visits(Mary,x,t) | -store(x) | at(Mary,x,t).  [resolve(111,a,110,b)].
+Derived: -store(s) | at(Mary,s,t) | -buys(Mary,x,s,t).  [resolve(131,a,130,b)].
+
+Eliminating staff/1
+
+Eliminating weight/2
+132 -weight(Deodrant,x) | -capacity(t,y) | -trunk(t) | -less_weight(x,y) | fits(t,Deodrant).  [resolve(95,a,101,c)].
+133 weight(GroundBeef,One).  [clausify(33)].
+134 weight(Tomatoes,Two).  [assumption].
+135 weight(Deodrant,x).  [resolve(95,a,99,a)].
+Derived: -capacity(t,x) | -trunk(t) | -less_weight(y,x) | fits(t,Deodrant).  [resolve(132,a,135,a)].
+136 weight(Tomatoes,x).  [resolve(106,a,99,a)].
+137 -weight(Tomatoes,x) | -capacity(t,y) | -trunk(t) | -less_weight(x,y) | fits(t,Tomatoes).  [resolve(106,a,101,c)].
+Derived: -capacity(t,x) | -trunk(t) | -less_weight(Two,x) | fits(t,Tomatoes).  [resolve(137,a,134,a)].
+Derived: -capacity(t,x) | -trunk(t) | -less_weight(y,x) | fits(t,Tomatoes).  [resolve(137,a,136,a)].
+138 weight(GroundBeef,x).  [resolve(107,a,99,a)].
+139 -weight(GroundBeef,x) | -capacity(t,y) | -trunk(t) | -less_weight(x,y) | fits(t,GroundBeef).  [resolve(107,a,101,c)].
+Derived: -capacity(t,x) | -trunk(t) | -less_weight(One,x) | fits(t,GroundBeef).  [resolve(139,a,133,a)].
+Derived: -capacity(t,x) | -trunk(t) | -less_weight(y,x) | fits(t,GroundBeef).  [resolve(139,a,138,a)].
+
+Eliminating pound/1
+140 -pound(One) | ounces(Sixteen).  [clausify(34)].
+141 pound(One).  [clausify(33)].
+Derived: ounces(Sixteen).  [resolve(140,a,141,a)].
+142 pound(x).  [resolve(95,a,98,a)].
+
+Eliminating less/2
+
+Eliminating capacity/2
+143 -capacity(t,x) | -trunk(t) | -less_weight(y,x) | fits(t,Deodrant).  [resolve(132,a,135,a)].
+144 capacity(t,Hundred).  [clausify(39)].
+145 -trunk(x) | capacity(x,y).  [clausify(41)].
+Derived: -trunk(t) | -less_weight(x,Hundred) | fits(t,Deodrant).  [resolve(143,a,144,a)].
+Derived: -trunk(t) | -less_weight(x,y) | fits(t,Deodrant) | -trunk(t).  [resolve(143,a,145,b)].
+146 -capacity(t,x) | -trunk(t) | -less_weight(Two,x) | fits(t,Tomatoes).  [resolve(137,a,134,a)].
+Derived: -trunk(t) | -less_weight(Two,Hundred) | fits(t,Tomatoes).  [resolve(146,a,144,a)].
+Derived: -trunk(t) | -less_weight(Two,x) | fits(t,Tomatoes) | -trunk(t).  [resolve(146,a,145,b)].
+147 -capacity(t,x) | -trunk(t) | -less_weight(y,x) | fits(t,Tomatoes).  [resolve(137,a,136,a)].
+Derived: -trunk(t) | -less_weight(x,Hundred) | fits(t,Tomatoes).  [resolve(147,a,144,a)].
+Derived: -trunk(t) | -less_weight(x,y) | fits(t,Tomatoes) | -trunk(t).  [resolve(147,a,145,b)].
+148 -capacity(t,x) | -trunk(t) | -less_weight(One,x) | fits(t,GroundBeef).  [resolve(139,a,133,a)].
+Derived: -trunk(t) | -less_weight(One,Hundred) | fits(t,GroundBeef).  [resolve(148,a,144,a)].
+Derived: -trunk(t) | -less_weight(One,x) | fits(t,GroundBeef) | -trunk(t).  [resolve(148,a,145,b)].
+149 -capacity(t,x) | -trunk(t) | -less_weight(y,x) | fits(t,GroundBeef).  [resolve(139,a,138,a)].
+Derived: -trunk(t) | -less_weight(x,Hundred) | fits(t,GroundBeef).  [resolve(149,a,144,a)].
+Derived: -trunk(t) | -less_weight(x,y) | fits(t,GroundBeef) | -trunk(t).  [resolve(149,a,145,b)].
+
+Eliminating less_weight/2
+150 -trunk(t) | -less_weight(x,Hundred) | fits(t,Deodrant).  [resolve(143,a,144,a)].
+151 less_weight(Two,Hundred).  [assumption].
+Derived: -trunk(t) | fits(t,Deodrant).  [resolve(150,b,151,a)].
+152 -trunk(t) | -less_weight(x,y) | fits(t,Deodrant) | -trunk(t).  [resolve(143,a,145,b)].
+153 -trunk(t) | -less_weight(Two,Hundred) | fits(t,Tomatoes).  [resolve(146,a,144,a)].
+Derived: -trunk(t) | fits(t,Tomatoes).  [resolve(153,b,151,a)].
+154 -trunk(t) | -less_weight(Two,x) | fits(t,Tomatoes) | -trunk(t).  [resolve(146,a,145,b)].
+155 -trunk(t) | -less_weight(x,Hundred) | fits(t,Tomatoes).  [resolve(147,a,144,a)].
+156 -trunk(t) | -less_weight(x,y) | fits(t,Tomatoes) | -trunk(t).  [resolve(147,a,145,b)].
+157 -trunk(t) | -less_weight(One,Hundred) | fits(t,GroundBeef).  [resolve(148,a,144,a)].
+158 -trunk(t) | -less_weight(One,x) | fits(t,GroundBeef) | -trunk(t).  [resolve(148,a,145,b)].
+159 -trunk(t) | -less_weight(x,Hundred) | fits(t,GroundBeef).  [resolve(149,a,144,a)].
+Derived: -trunk(t) | fits(t,GroundBeef).  [resolve(159,b,151,a)].
+160 -trunk(t) | -less_weight(x,y) | fits(t,GroundBeef) | -trunk(t).  [resolve(149,a,145,b)].
+
+Eliminating trunk/1
+161 -trunk(t) | fits(t,Deodrant).  [resolve(150,b,151,a)].
+162 trunk(t).  [clausify(39)].
+Derived: fits(t,Deodrant).  [resolve(161,a,162,a)].
+163 -trunk(t) | fits(t,Tomatoes).  [resolve(153,b,151,a)].
+Derived: fits(t,Tomatoes).  [resolve(163,a,162,a)].
+164 -trunk(t) | fits(t,GroundBeef).  [resolve(159,b,151,a)].
+Derived: fits(t,GroundBeef).  [resolve(164,a,162,a)].
+
+Eliminating sells/2
+165 sells(Shell,Gas).  [resolve(84,a,81,a)].
+166 -sells(Safeway,Deodrant).  [deny(43)].
+167 sells(Safeway,Deodrant).  [resolve(95,a,102,a)].
+Derived: $F.  [resolve(167,a,166,a)].
+168 sells(Safeway,Tomatoes).  [resolve(106,a,102,a)].
+169 sells(Safeway,GroundBeef).  [resolve(107,a,102,a)].
+
+Eliminating store/1
+170 -store(x) | -produced(Gas,x).  [resolve(116,a,117,a)].
+171 store(Safeway).  [resolve(51,a,52,a)].
+172 store(Shell).  [resolve(60,a,61,a)].
+173 -store(x) | -buys(John,Gas,x,t) | adult(John).  [resolve(116,a,118,b)].
+174 -store(x) | -buys(Mary,Gas,x,t) | adult(Mary).  [resolve(116,a,119,b)].
+175 -store(x) | -produced(Deodrant,x).  [resolve(126,a,117,a)].
+176 -store(x) | -buys(John,Deodrant,x,t) | adult(John).  [resolve(126,a,118,b)].
+177 -store(x) | -buys(Mary,Deodrant,x,t) | adult(Mary).  [resolve(126,a,119,b)].
+178 -store(x) | -produced(Tomatoes,x).  [resolve(127,a,117,a)].
+179 -store(x) | -buys(John,Tomatoes,x,t) | adult(John).  [resolve(127,a,118,b)].
+180 -store(x) | -buys(Mary,Tomatoes,x,t) | adult(Mary).  [resolve(127,a,119,b)].
+181 -store(x) | -produced(GroundBeef,x).  [resolve(128,a,117,a)].
+182 -store(x) | -buys(John,GroundBeef,x,t) | adult(John).  [resolve(128,a,118,b)].
+183 -store(x) | -buys(Mary,GroundBeef,x,t) | adult(Mary).  [resolve(128,a,119,b)].
+184 -store(s) | at(John,s,t) | -buys(John,x,s,t).  [resolve(129,a,130,b)].
+185 -store(s) | at(Mary,s,t) | -buys(Mary,x,s,t).  [resolve(131,a,130,b)].
+
+Eliminating eatable/1
+186 eatable(Tomatoes).  [resolve(89,a,91,a)].
+187 -eatable(Deodrant).  [resolve(79,a,78,a)].
+188 -eatable(Gas).  [resolve(82,a,81,a)].
+189 eatable(GroundBeef).  [resolve(94,a,91,a)].
+
+Eliminating owns/2
+190 owns(Shell,Gas).  [resolve(85,a,81,a)].
+191 -owns(Safeway,Gas).  [resolve(83,a,81,a)].
+192 owns(Safeway,Deodrant).  [resolve(95,a,103,a)].
+193 -owns(Shell,Deodrant).  [resolve(95,a,105,a)].
+194 owns(Safeway,Tomatoes).  [resolve(106,a,103,a)].
+195 -owns(Shell,Tomatoes).  [resolve(106,a,105,a)].
+196 owns(Safeway,GroundBeef).  [resolve(107,a,103,a)].
+197 -owns(Shell,GroundBeef).  [resolve(107,a,105,a)].
+
+Eliminating eats/2
+198 -eats(John,GroundBeef) | -vegetarian(John).  [resolve(112,b,108,a)].
+199 -buys(John,Tomatoes,Safeway,t) | eats(John,Tomatoes).  [resolve(89,a,92,b)].
+200 -buys(Mary,Tomatoes,Safeway,t) | eats(Mary,Tomatoes).  [resolve(89,a,93,b)].
+201 -buys(John,GroundBeef,Safeway,t) | eats(John,GroundBeef).  [resolve(94,a,92,b)].
+202 -buys(Mary,GroundBeef,Safeway,t) | eats(Mary,GroundBeef).  [resolve(94,a,93,b)].
+203 -eats(Mary,GroundBeef) | -vegetarian(Mary).  [resolve(112,b,111,a)].
+
+Eliminating have/2
+
+Eliminating sees/2
+
+Eliminating brings/3
+
+Eliminating buys/4
+
+Eliminating fits/2
+
+============================== end predicate elimination =============
+
+Auto_denials:  (no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ ounces ]).
+Function symbol precedence:  function_order([ Sixteen, One ]).
+After inverse_order:  (no changes).
+Unfolding symbols: (none).
+
+Auto_inference settings:
+  % set(neg_binary_resolution).  % (HNE depth_diff=0)
+  % clear(ordered_res).  % (HNE depth_diff=0)
+  % set(ur_resolution).  % (HNE depth_diff=0)
+    % set(ur_resolution) -> set(pos_ur_resolution).
+    % set(ur_resolution) -> set(neg_ur_resolution).
+
+Auto_process settings:  (no changes).
+
+kept:      204 -ounces(Sixteen) | ounces(One).  [clausify(35)].
+kept:      205 ounces(Sixteen).  [resolve(140,a,141,a)].
+
+============================== PROOF =================================
+
+% Proof 1 at 0.01 (+ 0.01) seconds.
+% Length of proof is 12.
+% Level of proof is 4.
+% Maximum clause weight is 0.000.
+% Given clauses 0.
+
+5 cosmetic(x) -> products(x) # label(non_clause).  [assumption].
+18 super_market(x) & products(y) -> sells(x,y) # label(non_clause).  [assumption].
+43 sells(Safeway,Deodrant) # label(non_clause) # label(goal).  [goal].
+52 super_market(Safeway).  [assumption].
+53 -super_market(x) | -products(y) | sells(x,y).  [clausify(18)].
+77 -cosmetic(x) | products(x).  [clausify(5)].
+78 cosmetic(Deodrant).  [assumption].
+95 products(Deodrant).  [resolve(77,a,78,a)].
+102 -products(x) | sells(Safeway,x).  [resolve(53,a,52,a)].
+166 -sells(Safeway,Deodrant).  [deny(43)].
+167 sells(Safeway,Deodrant).  [resolve(95,a,102,a)].
+206 $F.  [resolve(167,a,166,a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=0. Generated=3. Kept=2. proofs=1.
+Usable=0. Sos=0. Demods=0. Limbo=2, Disabled=201. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=0. Back_subsumed=0.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=0 (0 lex), Back_demodulated=0. Back_unit_deleted=0.
+Demod_attempts=0. Demod_rewrites=0.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=0. Nonunit_bsub_feature_tests=0.
+Megabytes=0.19.
+User_CPU=0.01, System_CPU=0.01, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+Process 13823 exit (max_proofs) Fri May  1 16:07:21 2020

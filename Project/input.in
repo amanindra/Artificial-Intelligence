@@ -1,0 +1,144 @@
+formulas(assumptions).
+
+customer(John).
+customer(Mary).
+
+super_market(Safeway).
+gas_station(Shell).
+
+super_market(x) -> store(x).
+gas_station(x) -> store(x).
+
+vegetables(Tomatoes).
+animal_produce(GroundBeef).
+
+money(Card).
+money(Cash).
+
+cosmetic(Deodrant).
+fuel(Gas).
+
+fuel(x) -> goods(x).
+
+buys(John, Tomatoes, Safeway, t).
+buys(John, GroundBeef, Safeway, t).
+
+buys(Mary, Tomatoes, Safeway, t).
+
+% If x is an animal produce then it is meat.
+animal_produce(x) -> meat(x).
+
+% Supermarkets sells cosmetics, food, home_decors
+cosmetic(x) -> products(x).
+meat(x) -> food(x).
+vegetables(x) -> food(x).
+
+food(x) -> products(x).
+products(x) -> goods(x).
+
+fuel(x) -> - eatable(x).
+cosmetic(x) -> - eatable(x).
+food(x) -> eatable(x).
+
+% if a customer buys meat from the super market, he eats meat
+customer(x) & buys(x, y, z, t) & food(y) & super_market(z) -> eats(x, y).
+
+% Customer is a person
+customer(x) -> person(x).
+
+% person is a child or an adult
+person(x) -> child(x) | adult(x).
+
+child(x) -> - adult(x).
+
+% Customer who buys goods from Store is an adult
+customer(x) & store(y) & goods(z) & buys(x, z, y, t) -> adult(x).
+
+% super_market sells products
+super_market(x) & products(y) -> sells(x, y).
+
+% gas_station sells fuel
+gas_station(x) & fuel(y) -> sells(x, y).
+
+% Anything that is food will be eaten by a person.
+%customer(x) & goods(y) & store(z) & uses(x, m) & money(m) -> buys(x, y, z).
+
+
+% Goods in the store are owned by the store
+products(x) & super_market(y) -> owns(y, x).
+fuel(x) & super_market(y) -> - owns(y, x).
+super_market(x) -> - gas_station(x).
+products(x) & gas_station(y) -> - owns(y, x).
+fuel(x) & gas_station(y) -> owns(y, x).
+
+% Goods in the store are not produced by the store
+goods(x) & store(y) -> - produced(x, y). 
+%fuel(x) & gas_station(y) -> - produced(x, y).
+
+all x all p all s all t(buys(x, p, s, t) & buys(y, p, s, t) & products(z) & super_market(s) -> sees(x, y)).
+
+% Money is either cash or card
+money(Cash).
+money(Card).
+
+all x all y all z all c(customer(x) & goods(y) & buys(x, y, z, t) & money(c) -> brings(x, c, z)).
+
+eats(x, y) & meat(y) & person(x) -> -vegetarian(x).
+
+buys(x, y, s, t) -> visits(x, s, t).
+
+visits(x, y, t) & person(x) & store(y) -> at(x, y, t).
+
+staff(x) & store(y) -> at(x, y, t).
+
+staff(x) -> -customer(x).
+
+weight(GroundBeef, One) & pound(One).
+
+pound(One) -> ounces(Sixteen).
+
+ounces(Sixteen) -> ounces(One).
+
+all x (exists y buys(x, y, z, t) & products(y) -> have(x, y)).
+
+all x (exists y products(x) -> pound(y) & weight(x, y)).
+
+all x all y all s all t(buys(x, y, s, t)-> exists w(money(w) & less(x, w))).
+
+% Any trunk has some capacity.
+% Any product has some weight.
+% A trunk can fit any product whose weight is less than the trunk's capacity.
+% 2 is less than 100.
+% Capacity of trunk is 100.
+
+weight(Tomatoes, Two).
+
+capacity(t, Hundred) & trunk(t).
+
+all x (exists z products(x) -> weight(x, z)).
+
+all x (exists y trunk(x) -> capacity(x, y)).
+
+all x all z (exists y exists t weight(x, z) & capacity(t, y) &  products(x) & trunk(t) & less_weight(z, y) -> fits(t, x)).
+
+less_weight(Two, Hundred).
+
+
+end_of_list.
+
+formulas(goals).
+%adult(John).
+%eats(John, Tomatoes).
+%-produced(Tomatoes, Safeway).
+%-vegetarian(John).
+%sells(Shell, Gas).
+%sees(John, Mary).
+%sells(Safeway, Deodrant).
+owns(Safeway, GroundBeef).
+%brings(John, Cash, Safeway) | brings(John, Card, Safeway).
+%exists x (buys(John, x, Safeway, t) & meat(x)).
+%all t exists x(at(John, Safeway, t) & at(x, Safeway, t) & -customer(x) -> staff(x)).
+%have(John, GroundBeef) & weight(GroundBeef, One) & ounces(One).
+%fits(t, Tomatoes) & trunk(t).
+%exists x(money(x) & less(John, x)).
+end_of_list.

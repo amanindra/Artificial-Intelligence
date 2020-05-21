@@ -1,0 +1,376 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2009-11A, November 2009.
+Process 13804 was started by manindra on Manindras-MBP,
+Fri May  1 16:06:50 2020
+The command was "prover9 -f problems.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file problems.in
+
+
+formulas(assumptions).
+customer(John).
+customer(Mary).
+super_market(Safeway).
+gas_station(Shell).
+super_market(x) -> store(x).
+gas_station(x) -> store(x).
+vegetables(Tomatoes).
+animal_produce(GroundBeef).
+money(Card).
+money(Cash).
+cosmetic(Deodrant).
+fuel(Gas).
+fuel(x) -> goods(x).
+buys(John,Tomatoes,Safeway,t).
+buys(John,GroundBeef,Safeway,t).
+buys(Mary,Tomatoes,Safeway,t).
+animal_produce(x) -> meat(x).
+cosmetic(x) -> products(x).
+meat(x) -> food(x).
+vegetables(x) -> food(x).
+food(x) -> products(x).
+products(x) -> goods(x).
+fuel(x) -> -eatable(x).
+cosmetic(x) -> -eatable(x).
+food(x) -> eatable(x).
+customer(x) & buys(x,y,z,t) & food(y) & super_market(z) -> eats(x,y).
+customer(x) -> person(x).
+person(x) -> child(x) | adult(x).
+child(x) -> -adult(x).
+customer(x) & store(y) & goods(z) & buys(x,z,y,t) -> adult(x).
+super_market(x) & products(y) -> sells(x,y).
+gas_station(x) & fuel(y) -> sells(x,y).
+products(x) & super_market(y) -> owns(y,x).
+fuel(x) & super_market(y) -> -owns(y,x).
+super_market(x) -> -gas_station(x).
+products(x) & gas_station(y) -> -owns(y,x).
+fuel(x) & gas_station(y) -> owns(y,x).
+goods(x) & store(y) -> -produced(x,y).
+(all x all p all s all t (buys(x,p,s,t) & buys(y,p,s,t) & products(z) & super_market(s) -> sees(x,y))).
+money(Cash).
+money(Card).
+(all x all y all z all c (customer(x) & goods(y) & buys(x,y,z,t) & money(c) -> brings(x,c,z))).
+eats(x,y) & meat(y) & person(x) -> -vegetarian(x).
+buys(x,y,s,t) -> visits(x,s,t).
+visits(x,y,t) & person(x) & store(y) -> at(x,y,t).
+staff(x) & store(y) -> at(x,y,t).
+staff(x) -> -customer(x).
+weight(GroundBeef,One) & pound(One).
+pound(One) -> ounces(Sixteen).
+ounces(Sixteen) -> ounces(One).
+(all x ((exists y buys(x,y,z,t)) & products(y) -> have(x,y))).
+(all x ((exists y products(x)) -> pound(y) & weight(x,y))).
+(all x all y all s all t (buys(x,y,s,t) -> (exists w (money(w) & less(x,w))))).
+weight(Tomatoes,Two).
+capacity(t,Hundred) & trunk(t).
+(all x ((exists z products(x)) -> weight(x,z))).
+(all x ((exists y trunk(x)) -> capacity(x,y))).
+(all x all z ((exists y exists t weight(x,z)) & capacity(t,y) & products(x) & trunk(t) & less_weight(z,y) -> fits(t,x))).
+less_weight(Two,Hundred).
+end_of_list.
+
+formulas(goals).
+(all t exists x (at(John,Safeway,t) & at(x,Safeway,t) & -customer(x) -> staff(x))).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 super_market(x) -> store(x) # label(non_clause).  [assumption].
+2 gas_station(x) -> store(x) # label(non_clause).  [assumption].
+3 fuel(x) -> goods(x) # label(non_clause).  [assumption].
+4 animal_produce(x) -> meat(x) # label(non_clause).  [assumption].
+5 cosmetic(x) -> products(x) # label(non_clause).  [assumption].
+6 meat(x) -> food(x) # label(non_clause).  [assumption].
+7 vegetables(x) -> food(x) # label(non_clause).  [assumption].
+8 food(x) -> products(x) # label(non_clause).  [assumption].
+9 products(x) -> goods(x) # label(non_clause).  [assumption].
+10 fuel(x) -> -eatable(x) # label(non_clause).  [assumption].
+11 cosmetic(x) -> -eatable(x) # label(non_clause).  [assumption].
+12 food(x) -> eatable(x) # label(non_clause).  [assumption].
+13 customer(x) & buys(x,y,z,t) & food(y) & super_market(z) -> eats(x,y) # label(non_clause).  [assumption].
+14 customer(x) -> person(x) # label(non_clause).  [assumption].
+15 person(x) -> child(x) | adult(x) # label(non_clause).  [assumption].
+16 child(x) -> -adult(x) # label(non_clause).  [assumption].
+17 customer(x) & store(y) & goods(z) & buys(x,z,y,t) -> adult(x) # label(non_clause).  [assumption].
+18 super_market(x) & products(y) -> sells(x,y) # label(non_clause).  [assumption].
+19 gas_station(x) & fuel(y) -> sells(x,y) # label(non_clause).  [assumption].
+20 products(x) & super_market(y) -> owns(y,x) # label(non_clause).  [assumption].
+21 fuel(x) & super_market(y) -> -owns(y,x) # label(non_clause).  [assumption].
+22 super_market(x) -> -gas_station(x) # label(non_clause).  [assumption].
+23 products(x) & gas_station(y) -> -owns(y,x) # label(non_clause).  [assumption].
+24 fuel(x) & gas_station(y) -> owns(y,x) # label(non_clause).  [assumption].
+25 goods(x) & store(y) -> -produced(x,y) # label(non_clause).  [assumption].
+26 (all x all p all s all t (buys(x,p,s,t) & buys(y,p,s,t) & products(z) & super_market(s) -> sees(x,y))) # label(non_clause).  [assumption].
+27 (all x all y all z all c (customer(x) & goods(y) & buys(x,y,z,t) & money(c) -> brings(x,c,z))) # label(non_clause).  [assumption].
+28 eats(x,y) & meat(y) & person(x) -> -vegetarian(x) # label(non_clause).  [assumption].
+29 buys(x,y,s,t) -> visits(x,s,t) # label(non_clause).  [assumption].
+30 visits(x,y,t) & person(x) & store(y) -> at(x,y,t) # label(non_clause).  [assumption].
+31 staff(x) & store(y) -> at(x,y,t) # label(non_clause).  [assumption].
+32 staff(x) -> -customer(x) # label(non_clause).  [assumption].
+33 weight(GroundBeef,One) & pound(One) # label(non_clause).  [assumption].
+34 pound(One) -> ounces(Sixteen) # label(non_clause).  [assumption].
+35 ounces(Sixteen) -> ounces(One) # label(non_clause).  [assumption].
+36 (all x ((exists y buys(x,y,z,t)) & products(y) -> have(x,y))) # label(non_clause).  [assumption].
+37 (all x ((exists y products(x)) -> pound(y) & weight(x,y))) # label(non_clause).  [assumption].
+38 (all x all y all s all t (buys(x,y,s,t) -> (exists w (money(w) & less(x,w))))) # label(non_clause).  [assumption].
+39 capacity(t,Hundred) & trunk(t) # label(non_clause).  [assumption].
+40 (all x ((exists z products(x)) -> weight(x,z))) # label(non_clause).  [assumption].
+41 (all x ((exists y trunk(x)) -> capacity(x,y))) # label(non_clause).  [assumption].
+42 (all x all z ((exists y exists t weight(x,z)) & capacity(t,y) & products(x) & trunk(t) & less_weight(z,y) -> fits(t,x))) # label(non_clause).  [assumption].
+43 (all t exists x (at(John,Safeway,t) & at(x,Safeway,t) & -customer(x) -> staff(x))) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+customer(John).  [assumption].
+customer(Mary).  [assumption].
+super_market(Safeway).  [assumption].
+gas_station(Shell).  [assumption].
+-super_market(x) | store(x).  [clausify(1)].
+-gas_station(x) | store(x).  [clausify(2)].
+vegetables(Tomatoes).  [assumption].
+animal_produce(GroundBeef).  [assumption].
+money(Card).  [assumption].
+money(Cash).  [assumption].
+cosmetic(Deodrant).  [assumption].
+fuel(Gas).  [assumption].
+-fuel(x) | goods(x).  [clausify(3)].
+buys(John,Tomatoes,Safeway,t).  [assumption].
+buys(John,GroundBeef,Safeway,t).  [assumption].
+buys(Mary,Tomatoes,Safeway,t).  [assumption].
+-animal_produce(x) | meat(x).  [clausify(4)].
+-cosmetic(x) | products(x).  [clausify(5)].
+-meat(x) | food(x).  [clausify(6)].
+-vegetables(x) | food(x).  [clausify(7)].
+-food(x) | products(x).  [clausify(8)].
+-products(x) | goods(x).  [clausify(9)].
+-fuel(x) | -eatable(x).  [clausify(10)].
+-cosmetic(x) | -eatable(x).  [clausify(11)].
+-food(x) | eatable(x).  [clausify(12)].
+-customer(x) | -buys(x,y,z,t) | -food(y) | -super_market(z) | eats(x,y).  [clausify(13)].
+-customer(x) | person(x).  [clausify(14)].
+-person(x) | child(x) | adult(x).  [clausify(15)].
+-child(x) | -adult(x).  [clausify(16)].
+-customer(x) | -store(y) | -goods(z) | -buys(x,z,y,t) | adult(x).  [clausify(17)].
+-super_market(x) | -products(y) | sells(x,y).  [clausify(18)].
+-gas_station(x) | -fuel(y) | sells(x,y).  [clausify(19)].
+-products(x) | -super_market(y) | owns(y,x).  [clausify(20)].
+-fuel(x) | -super_market(y) | -owns(y,x).  [clausify(21)].
+-super_market(x) | -gas_station(x).  [clausify(22)].
+-products(x) | -gas_station(y) | -owns(y,x).  [clausify(23)].
+-fuel(x) | -gas_station(y) | owns(y,x).  [clausify(24)].
+-goods(x) | -store(y) | -produced(x,y).  [clausify(25)].
+-buys(x,y,z,u) | -buys(w,y,z,u) | -products(v5) | -super_market(z) | sees(x,w).  [clausify(26)].
+money(Cash).  [assumption].
+money(Card).  [assumption].
+-customer(x) | -goods(y) | -buys(x,y,z,t) | -money(u) | brings(x,u,z).  [clausify(27)].
+-eats(x,y) | -meat(y) | -person(x) | -vegetarian(x).  [clausify(28)].
+-buys(x,y,s,t) | visits(x,s,t).  [clausify(29)].
+-visits(x,y,t) | -person(x) | -store(y) | at(x,y,t).  [clausify(30)].
+-staff(x) | -store(y) | at(x,y,t).  [clausify(31)].
+-staff(x) | -customer(x).  [clausify(32)].
+weight(GroundBeef,One).  [clausify(33)].
+pound(One).  [clausify(33)].
+-pound(One) | ounces(Sixteen).  [clausify(34)].
+-ounces(Sixteen) | ounces(One).  [clausify(35)].
+-buys(x,y,z,t) | -products(u) | have(x,u).  [clausify(36)].
+-products(x) | pound(y).  [clausify(37)].
+-products(x) | weight(x,y).  [clausify(37)].
+-buys(x,y,z,u) | money(f1(x,y,z,u)).  [clausify(38)].
+-buys(x,y,z,u) | less(x,f1(x,y,z,u)).  [clausify(38)].
+weight(Tomatoes,Two).  [assumption].
+capacity(t,Hundred).  [clausify(39)].
+trunk(t).  [clausify(39)].
+-products(x) | weight(x,y).  [clausify(40)].
+-trunk(x) | capacity(x,y).  [clausify(41)].
+-weight(x,y) | -capacity(t,z) | -products(x) | -trunk(t) | -less_weight(y,z) | fits(t,x).  [clausify(42)].
+less_weight(Two,Hundred).  [assumption].
+at(John,Safeway,c1).  [deny(43)].
+at(x,Safeway,c1).  [deny(43)].
+-customer(x).  [deny(43)].
+-staff(x).  [deny(43)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+Eliminating customer/1
+44 -customer(x) | -buys(x,y,z,t) | -food(y) | -super_market(z) | eats(x,y).  [clausify(13)].
+45 customer(John).  [assumption].
+46 customer(Mary).  [assumption].
+Derived: -buys(John,x,y,t) | -food(x) | -super_market(y) | eats(John,x).  [resolve(44,a,45,a)].
+Derived: -buys(Mary,x,y,t) | -food(x) | -super_market(y) | eats(Mary,x).  [resolve(44,a,46,a)].
+47 -customer(x) | person(x).  [clausify(14)].
+Derived: person(John).  [resolve(47,a,45,a)].
+Derived: person(Mary).  [resolve(47,a,46,a)].
+48 -customer(x) | -store(y) | -goods(z) | -buys(x,z,y,t) | adult(x).  [clausify(17)].
+Derived: -store(x) | -goods(y) | -buys(John,y,x,t) | adult(John).  [resolve(48,a,45,a)].
+Derived: -store(x) | -goods(y) | -buys(Mary,y,x,t) | adult(Mary).  [resolve(48,a,46,a)].
+49 -customer(x) | -goods(y) | -buys(x,y,z,t) | -money(u) | brings(x,u,z).  [clausify(27)].
+Derived: -goods(x) | -buys(John,x,y,t) | -money(z) | brings(John,z,y).  [resolve(49,a,45,a)].
+Derived: -goods(x) | -buys(Mary,x,y,t) | -money(z) | brings(Mary,z,y).  [resolve(49,a,46,a)].
+50 -staff(x) | -customer(x).  [clausify(32)].
+51 -customer(x).  [deny(43)].
+Derived: $F.  [resolve(51,a,45,a)].
+
+Eliminating super_market/1
+52 -super_market(x) | store(x).  [clausify(1)].
+53 super_market(Safeway).  [assumption].
+54 -super_market(x) | -products(y) | sells(x,y).  [clausify(18)].
+55 -products(x) | -super_market(y) | owns(y,x).  [clausify(20)].
+56 -fuel(x) | -super_market(y) | -owns(y,x).  [clausify(21)].
+57 -super_market(x) | -gas_station(x).  [clausify(22)].
+58 -buys(x,y,z,u) | -buys(w,y,z,u) | -products(v5) | -super_market(z) | sees(x,w).  [clausify(26)].
+59 -buys(John,x,y,t) | -food(x) | -super_market(y) | eats(John,x).  [resolve(44,a,45,a)].
+60 -buys(Mary,x,y,t) | -food(x) | -super_market(y) | eats(Mary,x).  [resolve(44,a,46,a)].
+
+Eliminating gas_station/1
+61 -gas_station(x) | store(x).  [clausify(2)].
+62 gas_station(Shell).  [assumption].
+63 -gas_station(x) | -fuel(y) | sells(x,y).  [clausify(19)].
+64 -products(x) | -gas_station(y) | -owns(y,x).  [clausify(23)].
+65 -fuel(x) | -gas_station(y) | owns(y,x).  [clausify(24)].
+
+Eliminating vegetables/1
+66 -vegetables(x) | food(x).  [clausify(7)].
+67 vegetables(Tomatoes).  [assumption].
+
+Eliminating animal_produce/1
+68 -animal_produce(x) | meat(x).  [clausify(4)].
+69 animal_produce(GroundBeef).  [assumption].
+
+Eliminating money/1
+70 -goods(x) | -buys(John,x,y,t) | -money(z) | brings(John,z,y).  [resolve(49,a,45,a)].
+71 money(Card).  [assumption].
+72 money(Cash).  [assumption].
+73 money(Cash).  [assumption].
+74 money(Card).  [assumption].
+75 -buys(x,y,z,u) | money(f1(x,y,z,u)).  [clausify(38)].
+76 -goods(x) | -buys(Mary,x,y,t) | -money(z) | brings(Mary,z,y).  [resolve(49,a,46,a)].
+
+Eliminating cosmetic/1
+77 -cosmetic(x) | products(x).  [clausify(5)].
+78 cosmetic(Deodrant).  [assumption].
+79 -cosmetic(x) | -eatable(x).  [clausify(11)].
+
+Eliminating fuel/1
+80 -fuel(x) | goods(x).  [clausify(3)].
+81 fuel(Gas).  [assumption].
+82 -fuel(x) | -eatable(x).  [clausify(10)].
+
+Eliminating buys/4
+83 -buys(x,y,s,t) | visits(x,s,t).  [clausify(29)].
+84 buys(John,Tomatoes,Safeway,t).  [assumption].
+85 buys(John,GroundBeef,Safeway,t).  [assumption].
+86 buys(Mary,Tomatoes,Safeway,t).  [assumption].
+87 -buys(x,y,z,t) | -products(u) | have(x,u).  [clausify(36)].
+88 -buys(x,y,z,u) | less(x,f1(x,y,z,u)).  [clausify(38)].
+89 -store(x) | -goods(y) | -buys(John,y,x,t) | adult(John).  [resolve(48,a,45,a)].
+90 -store(x) | -goods(y) | -buys(Mary,y,x,t) | adult(Mary).  [resolve(48,a,46,a)].
+
+Eliminating meat/1
+
+Eliminating food/1
+
+Eliminating products/1
+
+Eliminating person/1
+91 person(John).  [resolve(47,a,45,a)].
+92 -person(x) | child(x) | adult(x).  [clausify(15)].
+93 -visits(x,y,t) | -person(x) | -store(y) | at(x,y,t).  [clausify(30)].
+94 person(Mary).  [resolve(47,a,46,a)].
+
+Eliminating child/1
+
+Eliminating goods/1
+
+Eliminating staff/1
+
+Eliminating weight/2
+
+Eliminating pound/1
+95 -pound(One) | ounces(Sixteen).  [clausify(34)].
+96 pound(One).  [clausify(33)].
+
+Eliminating capacity/2
+
+Eliminating trunk/1
+
+Eliminating less_weight/2
+
+Eliminating at/3
+
+============================== end predicate elimination =============
+
+Auto_denials:  (no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ ounces ]).
+Function symbol precedence:  function_order([ One, Sixteen ]).
+After inverse_order:  (no changes).
+Unfolding symbols: (none).
+
+Auto_inference settings:
+  % set(neg_binary_resolution).  % (HNE depth_diff=0)
+  % clear(ordered_res).  % (HNE depth_diff=0)
+  % set(ur_resolution).  % (HNE depth_diff=0)
+    % set(ur_resolution) -> set(pos_ur_resolution).
+    % set(ur_resolution) -> set(neg_ur_resolution).
+
+Auto_process settings:  (no changes).
+
+kept:      97 -ounces(Sixteen) | ounces(One).  [clausify(35)].
+
+============================== PROOF =================================
+
+% Proof 1 at 0.01 (+ 0.00) seconds.
+% Length of proof is 4.
+% Level of proof is 2.
+% Maximum clause weight is 0.000.
+% Given clauses 0.
+
+43 (all t exists x (at(John,Safeway,t) & at(x,Safeway,t) & -customer(x) -> staff(x))) # label(non_clause) # label(goal).  [goal].
+45 customer(John).  [assumption].
+51 -customer(x).  [deny(43)].
+98 $F.  [resolve(51,a,45,a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=0. Generated=2. Kept=1. proofs=1.
+Usable=0. Sos=0. Demods=0. Limbo=1, Disabled=76. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=0. Back_subsumed=0.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=0 (0 lex), Back_demodulated=0. Back_unit_deleted=0.
+Demod_attempts=0. Demod_rewrites=0.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=0. Nonunit_bsub_feature_tests=0.
+Megabytes=0.13.
+User_CPU=0.01, System_CPU=0.00, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+Process 13804 exit (max_proofs) Fri May  1 16:06:50 2020
